@@ -1,7 +1,6 @@
 import time
 import  numpy as np
 import nltk
-# nltk.download('punkt')
 from nltk.corpus import stopwords
 from nltk import word_tokenize, pos_tag
 from nltk.stem import WordNetLemmatizer
@@ -38,7 +37,6 @@ def stem(token_words):
             word_lematizer = wordnet_lematizer.lemmatize(word)
         words_lematizer.append(word_lematizer)
 
-    # write_special_words(spec_words)
     return words_lematizer
 
 
@@ -70,7 +68,6 @@ characters = [' ', ',', '.', ':', ';', '?', '(', ')', '[', ']', '&', '!', '*', '
 
 def delete_characters(token_words):
     words_list = [word for word in token_words if word not in characters and not is_number(word)]
-    #words_list = [word for word in token_words if word not in characters]
     return words_list
 
 def delete_characters_without_number(token_words):

@@ -11,36 +11,12 @@ import  pandas as pd
 import numpy as np
 import  re
 
-####################  Parameter in local host for DEV ############
-# topk_path = 'D:/backup/wsdm_cup/ms_citation_original_format_en/dev-bm-en-alpha-0.55.csv'
-# validataion_desc_path = 'D:/backup/wsdm_cup/ms_citation_original_format_desc4/dev.csv'
-# candidate_path = 'D:/backup/wsdm_cup/ms_citation_original/candidate_paper_for_wsdm2020.csv'
-# data_path = 'D:/backup/wsdm_cup/bert_input_evl_dev_topk/key_sentence_en/'
-# type = 'dev'
-# topK = 50
-
-
-
-####################  Parameter in local host eval  ############
-# topk_path = 'D:/backup/wsdm_cup/ms_citation_original_format_en/vali-bm-en-alpha-0.55.csv'
-# validataion_desc_path = 'D:/backup/wsdm_cup/ms_citation_original_format_desc4/validation.csv'
-# candidate_path = 'D:/backup/wsdm_cup/ms_citation_original/candidate_paper_for_wsdm2020.csv'
-# data_path = 'D:/backup/wsdm_cup/bert_input_evl_dev_topk/key_sentence_en/'
-# type = 'evl'
-# topK = 50
-
 topk_path = 'D:/backup/wsdm_cup/ms_citation_test/test-wxy2/test_top_50.csv'
 validataion_desc_path = 'D:/backup/wsdm_cup/ms_citation_test/test-kt.csv'
 candidate_path = 'D:/backup/wsdm_cup/ms_citation_original/candidate_paper_for_wsdm2020.csv'
 data_path = 'D:/backup/wsdm_cup/ms_citation_test/test-wxy2/'
 type = 'test'
 topK = 50
-
-####################  Parameter in GPU############
-# topk_path = '/home/LAB/zhaoqh/ljf/result/bm25-default-top100-res.csv'
-# validataion_desc_path = '/home/LAB/zhaoqh/ljf/data_original/validation.csv'
-# candidate_path = '/home/LAB/zhaoqh/ljf/data_original/candidate_paper_for_wsdm2020.csv'
-# data_path = '/home/LAB/zhaoqh/ljf/datasets/'
 
 
 def read_validation_desc(validataion_desc_path):
@@ -58,8 +34,6 @@ def read_validation_desc(validataion_desc_path):
             gt160 += 1
         size += 1
     print('key_text len more that 80 with {}, more that 160 with{}'.format(gt80*1.0/size*1.0, gt160*1.0/size*1.0 ))
-#    print(validation_map_id_text['ffffff'])
-
     return validation_map_id_text
 
 def remove_none(abstract):
@@ -79,8 +53,6 @@ def read_candidate(candidate_paper_path):
 
     cand['title'] = cand['title'].fillna('')
     print('candidate shape:{}'.format(cand.shape))
-    #can_id2abs= cand.set_index('paper_id').to_dict()['abstract']
-    #can_id2tilte= cand.set_index('paper_id').to_dict()['title']
     cand['title'] = cand['title'] + ' '+ cand['abstract']
     can_id2doc = cand.set_index('paper_id').to_dict()['title']
 
@@ -99,24 +71,6 @@ def get_desc_by_id(description_id, validation_map_id_text):
     else:
         return  validation_map_id_text[description_id]
 
-    # not_match = 0
-    # new_desc = list()
-    # desc = ''
-    # if description_id.strip() != '':
-    #     desc = validation_map_id_text[description_id]
-    #     if desc.strip() != '':
-    #         text_list = desc.split('.')
-    #         for i_text in text_list:
-    #             if re.search('[\[|\(]?[\[|,]+\*\*\#\#\*\*[\]|,]+[\]|\)]?', i_text) is not None:
-    #                 new_desc.append(re.sub('[\[|\(]?[\[|,]+\*\*\#\#\*\*[\]|,]+[\]|\)]?', '', i_text))
-    #
-    #     if len(new_desc) == 0:
-    #         new_desc.append(desc)
-    #         not_match = 1
-    #     return ' '.join(new_desc), not_match
-    #
-    # else:
-    #     return desc, not_match
 
 def get_content_by_id(paper_id,  can_id2doc):
     abs = ''
@@ -125,7 +79,6 @@ def get_content_by_id(paper_id,  can_id2doc):
         return doc
     else:
         return abs
-
 
 
 def formate_evl_tsv(validation_map_id_text, top100 , can_id2doc):
@@ -145,8 +98,6 @@ def formate_evl_tsv(validation_map_id_text, top100 , can_id2doc):
             col.append(paper_id)
             col.append(desc_content.replace('\n', ' ').replace('\r', ' ').replace('\t', ' '))
             col.append(paper_content.replace('\n', ' ').replace('\r', ' ').replace('\t', ' '))
-            # col.append(desc_content)
-            # col.append(paper_content)
             eval_formate_tmp[all_eval_cnt] = col
             all_eval_cnt += 1
     eval_formate = np.empty((all_eval_cnt, 4), object)

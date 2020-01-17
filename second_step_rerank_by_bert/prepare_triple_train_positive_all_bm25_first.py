@@ -83,14 +83,6 @@ def read_train_bm25_4_neg (train_bm25_path):
     for idx in ran_int:
         desc_id2paper_id = train25.set_index('0').to_dict()[str(idx)]
         list_id2id.append(desc_id2paper_id)
-    # for idx in range (random_neg+1, random_neg + bm25_neg+1):
-    #     train25[str(idx)] = train25[str(idx)].fillna('')
-    # list_id2id =[]
-    # for idx in range(random_neg, random_neg + bm25_neg):
-    #     desc_id2paper_id = train25.set_index('0').to_dict()[str(idx+1)]
-    #     list_id2id.append(desc_id2paper_id)
-    #train25_descid_paperid0 = train25.set_index('0').to_dict()['1']
-    #print(list_id2id[0]['77bef2'])
     return list_id2id
 
 def read_train_bm25_9_neg (train_bm25_path):
@@ -108,14 +100,6 @@ def read_train_bm25_9_neg (train_bm25_path):
     for idx in ran_int:
         desc_id2paper_id = train25.set_index('0').to_dict()[str(idx)]
         list_id2id.append(desc_id2paper_id)
-    # for idx in range (random_neg+1, random_neg + bm25_neg+1):
-    #     train25[str(idx)] = train25[str(idx)].fillna('')
-    # list_id2id =[]
-    # for idx in range(random_neg, random_neg + bm25_neg):
-    #     desc_id2paper_id = train25.set_index('0').to_dict()[str(idx+1)]
-    #     list_id2id.append(desc_id2paper_id)
-    #train25_descid_paperid0 = train25.set_index('0').to_dict()['1']
-    #print(list_id2id[0]['77bef2'])
     return list_id2id
 
 def get_positive_document(paper_id, candidate_map_id_doc):
@@ -176,15 +160,6 @@ def get_random_negative_document2(list_cand_map_id_doc):
     return ran_paper_doc
 
 def gen_triple_train(can_id2doc, bm25fist):
-
-    # train file.  train_release_remove_dev  description_id, paper_id, key_text, query_text, description_text
-    # train = pd.read_csv(train_file_path)
-    # train['description_id'] = train['description_id'].fillna('')
-    # train['paper_id'] = train['paper_id'].fillna('')
-    # train['key_text'] =train['key_text'].fillna('')
-    # train['description_text'] = train['description_text'].fillna('')
-    # print('train shape:{}'.format(train.shape))
-    # print('load train relase... ')
     validation = pd.read_csv(validation_path)
     validation['description_id'] = validation['description_id'].fillna('')
     validation['key_text'] = validation['key_text'].fillna('')
@@ -194,7 +169,6 @@ def gen_triple_train(can_id2doc, bm25fist):
     para_size = random_neg + bm25_neg
     actually_size = 0
     not_match = 0
-    #all_size = len(train['description_id'].values) * (para_size ) + len(validation['description_id'].values) * (vali_random_neg )
     all_size = len(validation['description_id'].values) * (vali_random_neg)
     vali_size = len(validation['description_id'].values)
 
@@ -248,7 +222,6 @@ def gen_triple_train(can_id2doc, bm25fist):
         for idx in range(0, vali_random_neg):
             col = list()
             col.append(row['key_text'].replace('\n', ' ').replace('\r', ' ').replace('\t', ' '))
-            #col.append(row['key_text'].replace('\n', ' ').replace('\r', ' ').replace('\t', ' '))
             col.append(bm25_first_as_positive.replace('\n', ' ').replace('\r', ' ').replace('\t', ' '))
             neg_doc = get_random_negative_document2(list_cand_map_id_doc)  # get random paper abstract from candidate.
             col.append(neg_doc.replace('\n', ' ').replace('\r', ' ').replace('\t', ' '))

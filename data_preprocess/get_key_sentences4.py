@@ -8,14 +8,14 @@ from tqdm import tqdm
 from gensim import corpora,similarities,models
 import nltk
 
-split_sentence=nltk.data.load('tokenizers/punkt/english.pickle');
+split_sentence=nltk.data.load('tokenizers/punkt/english.pickle')
 
 remove_dot = ['\n', '\r', '\t', 'al.', 'et.', 'vs.', 'e.g.', 'fig.', ', ,', ',,', '`']
 
 def get_key_sentence(text):
     for item in remove_dot:
         text = text.replace(item, '')
-    text = split_sentence.tokenize(text);
+    text = split_sentence.tokenize(text)
 
     key_sen_pos = list()  # all reference's position. i.e., key sentence positions.
     max_pos = -1  # minimum position of the ref .

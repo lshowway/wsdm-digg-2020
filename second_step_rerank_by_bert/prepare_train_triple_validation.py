@@ -13,12 +13,6 @@ import random
 import time
 
 
-####################  Parameter in local host ############train_release_remove_dev
-# train_file_path  = 'D:/backup/wsdm_cup/ms_citation_original_format_desc/dev.csv'
-# train_bm25_path = 'D:/backup/wsdm_cup/ms_citation_bm25_result/bm25-dev-top100.csv'
-# type = 'dev'
-
-#train_bm25_path = 'D:/backup/wsdm_cup/ms_citation_bm25_result/bm25-train-remove-dev-key-sentence-top100.csv'
 train_file_path  = 'D:/backup/wsdm_cup/ms_citation_original_format_desc4/train_release_remove_dev.csv'
 validation_path = 'D:/backup/wsdm_cup/ms_citation_original_format_desc4/validation.csv'
 type ='evl'
@@ -27,16 +21,8 @@ cand_file_name  = 'D:/backup/wsdm_cup/ms_citation_original/candidate_paper_for_w
 data_path = 'D:/backup/wsdm_cup/ms_citation_original_format_desc4/'
 
 
-####################  Parameter in GPU############
-# train_file_path  = '/home/LAB/zhaoqh/ljf/data_original/train_release_remove_dev.csv'
-# candidate_paper_path = '/home/LAB/zhaoqh/ljf/data_original/candidate_paper_for_wsdm2020.csv'
-# data_path = '/home/LAB/zhaoqh/ljf/datasets/'
-
-
-#topk = 10
 random_neg = 1
 vali_random_neg = 29
-#bm25_neg = 1
 
 def remove_none(abstract):
     if abstract.strip() == 'NO_CONTENT' or abstract.strip() == '' or abstract is None:
@@ -55,25 +41,10 @@ def read_candidate(candidate_paper_path):
 
     cand['title'] = cand['title'].fillna('')
     print('candidate shape:{}'.format(cand.shape))
-    #can_id2abs= cand.set_index('paper_id').to_dict()['abstract']
-    #can_id2tilte= cand.set_index('paper_id').to_dict()['title']
     cand['title'] = cand['title'] + ' '+ cand['abstract']
     can_id2doc = cand.set_index('paper_id').to_dict()['title']
 
     return can_id2doc
-
-# def read_train_bm25(train_bm25_path):
-#     train25 = pd.read_csv(train_bm25_path, dtype=str)      # set read_csv as string.
-#     for idx in range (random_neg+1, random_neg + bm25_neg+1):
-#         train25[str(idx)] = train25[str(idx)].fillna('')
-#     list_id2id =[]
-#     for idx in range(random_neg, random_neg + bm25_neg):
-#         desc_id2paper_id = train25.set_index('0').to_dict()[str(idx+1)]
-#         list_id2id.append(desc_id2paper_id)
-#     #train25_descid_paperid0 = train25.set_index('0').to_dict()['1']
-#     #print(list_id2id[0]['77bef2'])
-#     return list_id2id
-#
 
 
 def get_positive_document(paper_id, candidate_map_id_doc):
@@ -127,7 +98,6 @@ def get_negative_document(paper_id, desc_id, can_id2doc, list_cand_map_id_doc,
 
 
 def gen_triple_train(can_id2doc):
-
     # train file.  train_release_remove_dev  description_id, paper_id, key_text, query_text, description_text
     train = pd.read_csv(train_file_path)
     train['description_id'] = train['description_id'].fillna('')
@@ -200,7 +170,6 @@ def read_triple(path):
 
 
 if __name__ == '__main__':
-
     #bm25list_id2id = read_train_bm25(train_bm25_path)
 
     # get candidate, with map id2abstract and id2title
