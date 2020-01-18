@@ -3,7 +3,7 @@
  The BM25 we adopted is from Anserini [https://github.com/castorini/anserini], and the bert we adopted is modified from paper "PASSAGE RE-RANKING WITH BERT". 
 
 ## 1. Prerequirements
-##### 1.1 Ansirini is need to create index to boot retrive. 
+##### 1.1 Ansirini is need to create index to boost retrive. 
 ##### 1.2 python 3.6, tensorflow 1.11.0
 
 
