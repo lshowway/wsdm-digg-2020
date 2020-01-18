@@ -27,6 +27,7 @@
 ##### 4.2 [rank: 4th, Team: dlutycx , BM25 + bert](https://github.com/chengsyuan/WSDM-Adhoc-Document-Retrieval). 
 ##### 4.3 [Team: nlp_rabbit](https://github.com/supercoderhawk/wsdm-digg-2020).  
 ##### 4.4 [A fast BM25](https://github.com/shuiliwanwu/wsdm_cup2020). 
+##### 4.5 [rank: 3th, Team: xiong](https://github.com/xiong666/wsdm2020_diggsci/tree/master/code).
 
 ## 5. References
 ##### 5.1 Nogueira R, Cho K. Passage Re-ranking with BERT[J]. arXiv preprint arXiv:1901.04085, 2019.
